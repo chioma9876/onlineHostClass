@@ -69,3 +69,55 @@ exports.getOnePlayer = async(req, res)=> {
     })
     }
 } 
+exports.updatePlayer = async(req, res) => {
+    try {
+        const {id} = req.params
+
+        if (!id) {
+            return res.status(400).json({
+                error: 'player id not found'
+            })
+        }
+        const updatedPlayer = await teamModel.findByPk(
+            id,{
+            playerName: req.body.playerName,
+            age: req.body.age
+            }
+        );
+        if(!updatedPlayer) {    
+            return res.status(404).json({
+                message: "player not found"
+            })
+        }
+        res.status(200).json({
+            message: "player update is successful",
+            data: updatedPlayer
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }    
+}
+
+exports.deletePlayer = async(req,res) => {
+    try {
+        const {id} = req.params
+        if(!id){
+            return res.status(400).json({
+                message: 'player does not exist'
+            })
+        }
+        const deletedPlayer = await playerModel.destroy({
+            where: {id}
+        })
+        res.status(200).json({
+            message: 'player delete is successful'
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
