@@ -68,3 +68,56 @@ exports.getOneTeam = async(req, res) => {
         })
     }
 } 
+
+exports.updateTeam = async(req, res) => {
+    try {
+        const {id} = req.params
+
+        if (!id) {
+            return res.status(400).json({
+                error: 'team id not found'
+            })
+        }
+        const updatedTeam = await teamModel.findByPk(
+            id,{
+            teamName: req.body.teamName,
+            coachName: req.body.coachName
+            }
+        );
+        if(!updatedTeam) {    
+            return res.status(404).json({
+                message: "Team not found"
+            })
+        }
+        res.status(200).json({
+            message: "Team update is successful",
+            data: updatedTeam
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }    
+}
+
+exports.deleteTeam = async(req,res) => {
+    try {
+        const {id} = req.params
+        if(!id){
+            return res.status(400).json({
+                message: 'Team does not exist'
+            })
+        }
+        const Team = await teamModel.destroy({
+            where: {id}
+        })
+        res.status(200).json({
+            message: 'team delete is successful'
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
