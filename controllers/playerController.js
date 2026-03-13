@@ -71,17 +71,18 @@ exports.getOnePlayer = async(req, res)=> {
 } 
 exports.updatePlayer = async(req, res) => {
     try {
-        const {id} = req.params
+        const {id} = req.params;
 
         if (!id) {
             return res.status(400).json({
                 error: 'player id not found'
-            })
+            });
         }
-        const updatedPlayer = await teamModel.findByPk(
-            id,{
+        const updatedPlayer = await playerModel.update({
             playerName: req.body.playerName,
             age: req.body.age
+            },{
+                where: {id}
             }
         );
         if(!updatedPlayer) {    

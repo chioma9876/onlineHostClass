@@ -7,7 +7,7 @@ router.post('/createPlayer', createPlayer);
 router.get('/allPlayers', getAllPlayer);
 router.get('/onePlayer/:id', getOnePlayer)
 
-router.put('updatePlayer/:id', updatePlayer)
+router.put('/updatePlayer/:id', updatePlayer)
 
 router.delete('/deletePlayer/:id', deletePlayer)
 module.exports = router
